@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Management System</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #38bdf8;
+    }
+
+    .card {
+        background: #1e293b;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        margin-top: 5px;
+        background: #334155;
+        color: #fff;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #38bdf8;
+        border: none;
+        margin-top: 15px;
+        border-radius: 8px;
+        color: #000;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background: #0ea5e9;
+    }
+
+    #output {
+        background: #1e293b;
+        padding: 20px;
+        min-height: 150px;
+        border-radius: 10px;
+        white-space: pre-line;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Hospital Management System</h1>
+
+    <div class="card">
+        <label>Patient ID (Auto)</label>
+        <input type="text" id="patientId" placeholder="Auto-generated" disabled>
+
+        <label>Name</label>
+        <input type="text" id="name">
+
+        <label>Age</label>
+        <input type="number" id="age">
+
+        <label>Disease</label>
+        <input type="text" id="disease">
+
+        <button onclick="addPatient()">Add Patient</button>
+        <button onclick="viewPatient()">View Patient</button>
+        <button onclick="listPatients()">List All Patients</button>
+    </div>
+
+    <div id="output">Output will appear here...</div>
+</div>
+
+<script>
+    let patients = [];
+    let patientID = 1;
+
+    function addPatient() {
+        const name = document.getElementById("name").value;
+        const age = document.getElementById("age").value;
+        const disease = document.getElementById("disease").value;
+
+        if (!name || !age || !disease) {
+            alert("Please fill all fields!");
+            return;
+        }
+
+        const newPatient = {
+            id: patientID,
+            name,
+            age,
+            disease
+        };
+
+        patients.push(newPatient);
+        patientID++;
+
+        document.getElementById("name").value = "";
+        document.getElementById("age").value = "";
+        document.getElementById("disease").value = "";
+        document.getElementById("output").innerText = `Patient ${name} added successfully!`;
+    }
+
+    function viewPatient() {
+        const id = prompt("Enter Patient ID:");
+
+        const patient = patients.find(p => p.id == id);
+
+        if (patient) {
+            document.getElementById("output").innerText =
+                `Patient ID: ${patient.id}\nName: ${patient.name}\nAge: ${patient.age}\nDisease: ${patient.disease}`;
+        } else {
+            alert("No patient found with that ID.");
+        }
+    }
+
+    function listPatients() {
+        if (patients.length === 0) {
+            document.getElementById("output").innerText = "No patients added yet.";
+            return;
+        }
+
+        let result = "";
+        patients.forEach(p => {
+            result += `ID: ${p.id} | Name: ${p.name} | Age: ${p.age} | Disease: ${p.disease}\n`;
+        });
+
+        document.getElementById("output").innerText = result;
+    }
+</script>
+
+</body>
+</html>
